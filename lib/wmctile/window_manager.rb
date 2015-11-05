@@ -1,8 +1,6 @@
 class Wmctile::WindowManager < Wmctile::ClassWithDmenu
   attr_accessor :w, :h, :workspace, :windows
-  ##################################
-  ## init ##########################
-  ##################################
+
   def initialize(settings)
     @settings = settings
     init_dimensions
@@ -17,9 +15,7 @@ class Wmctile::WindowManager < Wmctile::ClassWithDmenu
     @h = dimensions[1].to_i - 2 * @settings.window_border - @settings.panel_height
     @workspace = cmd("wmctrl -d | grep '\*' | awk '{ print $1 }'").to_i
   end
-  ##################################
-  ## dimension getters #############
-  ##################################
+
   def width(portion = 1)
     @w * portion
   end
@@ -27,9 +23,7 @@ class Wmctile::WindowManager < Wmctile::ClassWithDmenu
   def height(portion = 1)
     @h * portion
   end
-  ##################################
-  ## window getters ################
-  ##################################
+
   def get_window(window_str = nil, all_workspaces = false)
     if window_str.nil?
       window = ask_for_window all_workspaces
@@ -113,9 +107,7 @@ class Wmctile::WindowManager < Wmctile::ClassWithDmenu
   def ask_for_window(_all_workspaces = false)
     dmenu windows.map(&:dmenu_item)
   end
-  ##################################
-  ## window lists ##################
-  ##################################
+
   def build_win_list(all_workspaces = false)
     unless all_workspaces
       variable_name = '@windows_on_workspace'
@@ -151,29 +143,31 @@ class Wmctile::WindowManager < Wmctile::ClassWithDmenu
       instance_variable_get(variable_name)
     end
   end
-  ##################################
-  ## window size calculators #######
-  ##################################
+
   def calculate_snap(where, portion = 0.5)
     case where
     when 'left'
       {
-        x: @settings.panel_width, y: @settings.panel_height,
+        x: @settings.panel_width,
+        y: @settings.panel_height,
         width: width(portion)
       }
     when 'right'
       {
-        x: width(1 - portion), y: @settings.panel_height,
+        x: width(1 - portion),
+        y: @settings.panel_height,
         width: width(portion)
       }
     when 'top'
       {
-        x: @settings.panel_width, y: @settings.panel_height,
+        x: @settings.panel_width,
+        y: @settings.panel_height,
         height: height(portion)
       }
     when 'bottom'
       {
-        x: @settings.panel_width, y: @settings.panel_height + height(1 - portion) + @settings.titlebar_height,
+        x: @settings.panel_width,
+        y: @settings.panel_height + height(1 - portion) + @settings.titlebar_height,
         height: height(portion) - @settings.titlebar_height
       }
     when 'topleft'

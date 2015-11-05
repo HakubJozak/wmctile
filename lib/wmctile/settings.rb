@@ -8,7 +8,7 @@ class Wmctile::Settings < Wmctile::Class
   end
 
   def initialize
-    get_wm_specific_helper
+    # get_wm_specific_helper
     path = File.expand_path '~/.config/wmctile/wmctile-settings.yml'
     raw_settings = create_new_settings path unless File.exist? path
     raw_settings ||= File.read path
